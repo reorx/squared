@@ -1,0 +1,14 @@
+{
+  "name": "squared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "reorx",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.7.2"
+  }
+}

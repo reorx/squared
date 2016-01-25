@@ -1,0 +1,96 @@
+@import "_base.scss";
+
+$border_color: #aaa;
+
+html, body {
+    height: 100%;
+}
+
+#main {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+
+    .grid-item {
+        .close {
+            display: none;
+            position: absolute;
+            right: 0; top: 0;
+            background: #aaa;
+            width: 40px;
+            height: 40px;
+            transition: all 0.2s ease;
+            span {
+                display: block;
+                position: absolute;
+                right: 8px; top: 8px;
+                font-size: 18px;
+                cursor: pointer;
+                transition: all 0.15s ease;
+                &:hover {
+                    color: red;
+                }
+            }
+        }
+    }
+
+    .left-column {
+        border-right: 1px solid $border_color;
+        width: 40%;
+
+        .squared-box {
+            border-bottom: 1px solid $border_color;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+
+            &.-grids-9 {
+                .grid-item {
+                    width: calc(100% / 3);
+                    height: calc(100% / 3);
+                    background-size: 100% 100%;
+                }
+            }
+
+            .grid-item {
+                box-shadow: inset 0 0 8px #aaa;
+                position: relative;
+                .close {
+                    display: block;
+                    opacity: 0;
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        .settings-box {
+        }
+    }
+
+    .right-column {
+        flex-grow: 1;
+
+        .url-box {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        ul.album-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            li {
+                border-bottom: 1px solid #ddd;
+                padding: 10px;
+            }
+            li .grid-item {
+                width: 100px;
+                height: 100px;
+                background-size: 100px 100px;
+                border: 1px solid blue;
+            }
+        }
+    }
+}

@@ -4,3 +4,4 @@ node_modules/
 css/
 *.html
 .sass-cache/
+squared/local_settings.py

@@ -20,9 +20,13 @@ html
             .grid-item(style="background-image: url(https://i.scdn.co/image/7ebada6fe86734588880142a6b6ab4e72b935fbd)")
               .close ✖
 
-    script#playlist-tempalte(type="text/x-handlebars-template")
+    script#playlist-template(type="text/x-handlebars-template")
       | {{#playlist}}
-      |   {{artwork_url}}
+      |   <li>
+      |     <div class="grid-item" style="background-image: url({{album.images.0.url}})">
+      |       <div class="close">✖</div>
+      |     </div>
+      |   </li>
       | {{/playlist}}
 
   script(src='/static/bower_components/jquery/dist/jquery.min.js')

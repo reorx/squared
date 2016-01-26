@@ -14,10 +14,8 @@
             var grid = $('<div>').addClass('grid-item').html(i);
             squared_box.append(grid);
         }
-        squared_box.on({
-            'click .close > span': function(e) {
-                $(e.target).closest('.grid-item').remove();
-            }
+        squared_box.on('click',  '.close', function(e) {
+            $(e.target).closest('.grid-item').remove();
         });
         Sortable.create(squared_box_dom, {
             group: {
@@ -47,6 +45,34 @@
                 },
                 draggable: '.grid-item',
                 animation: 150,
+            });
+        });
+
+
+        var playlist_template = Handlebars.compile($('#playlist-template').html());
+            renderPlaylist = function(json) {
+                var playlist = $(playlist_template(json));
+
+                // Bind sortable
+            };
+
+
+        // Bind url-box
+        var url_box = $('.url-box');
+        url_box.on('change', function() {
+            var url = $(this).val();
+            if (!url)
+                return;
+
+            $.ajax({
+                url: '/api/get_spotify_playlist',
+                type: 'POST',
+                data: {
+                    playlist_url: url
+                },
+                success: function(json) {
+                    renderPlaylist(json);
+                }
             });
         });
 

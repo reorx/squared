@@ -2,7 +2,7 @@ doctype html
 html
   head
     title Squared
-  link(rel="stylesheet", href="css/app.css")
+  link(rel="stylesheet", href="/static/css/app.css")
   body
     #main
       .left-column
@@ -12,16 +12,20 @@ html
       .right-column
         .url-box
           input(type="text")
-        ul.album-list
+        ul.play-list
           li
             .grid-item(style="background-image: url(https://i.scdn.co/image/0ba05bf089098f8daab52774a2bf9be294bfb93e)")
-              .close
-                span ✖
+              .close ✖
           li
             .grid-item(style="background-image: url(https://i.scdn.co/image/7ebada6fe86734588880142a6b6ab4e72b935fbd)")
-              .close
-                span ✖
+              .close ✖
 
-  script(src='bower_components/jquery/dist/jquery.min.js')
-  script(src='bower_components/Sortable/Sortable.min.js')
-  script(src='js/app.js')
+    script#playlist-tempalte(type="text/x-handlebars-template")
+      | {{#playlist}}
+      |   {{artwork_url}}
+      | {{/playlist}}
+
+  script(src='/static/bower_components/jquery/dist/jquery.min.js')
+  script(src='/static/bower_components/handlebars/handlebars.min.js')
+  script(src='/static/bower_components/Sortable/Sortable.min.js')
+  script(src='/static/js/app.js')

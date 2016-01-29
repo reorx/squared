@@ -1,41 +1,52 @@
 @import "_base.scss";
 
-$border_color: #aaa;
+$main_width: 1200px;
+$main_padding: 20px;
+$main_padding_int: 20;
+$border_color: #ddd;
+$font_color_normal: #222;
+$font_color_light: #888;
 
 html, body {
     height: 100%;
+    font-size: 13px;
+}
+
+body {
+    // DEBUG
+    background: #eaeaea;
 }
 
 #main {
-    display: flex;
-    align-items: stretch;
-    height: 100%;
+    // display: flex;
+    // align-items: stretch;
 
-    .grid-item {
-        .close {
-            display: none;
-            position: absolute;
-            right: 5px; top: 5px;
-            padding: 5px 8px;
-            transition: all 0.2s ease;
+    // position: absolute;
+    // left: 0; right: 0; top: 0; bottom: 0;
 
-            font-size: 18px;
-            cursor: pointer;
-            &:hover {
-                color: red;
-            }
-        }
+    width: $main_width;
+    min-height: 100%;
+    position: relative;
+    margin: 0 auto;
+    @media screen and (max-width: $main_width) {
+        width: auto;
     }
 
     .left-column {
-        border-right: 1px solid $border_color;
-        width: 40%;
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        box-sizing: border-box;
+        width: 45%;
+        padding: $main_padding;
+        display: flex;
+        flex-direction: column;
 
         .squared-box {
-            border-bottom: 1px solid $border_color;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
+            background: #fff;
+            margin-bottom: $main_padding;
 
             &.-grids-9 {
                 .grid-item {
@@ -60,32 +71,149 @@ html, body {
             }
         }
         .settings-box {
+            background: #fff;
+            flex-grow: 1;
         }
     }
 
     .right-column {
-        flex-grow: 1;
+        position: absolute;
+        right: $main_padding; top: $main_padding; bottom: $main_padding;
+        box-sizing: border-box;
+        width: calc(55% - #{$main_padding});
+        display: flex;
+        flex-direction: column;
 
         .url-box {
-            padding: 20px;
+            padding: $main_padding;
             border-bottom: 1px solid #eee;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            margin-bottom: $main_padding;
+
+            > select {
+                margin-right: $main_padding;
+            }
+            > input {
+                flex-grow: 1;
+            }
         }
 
-        ul.play-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+        .status-bar {
+            padding: 5px $main_padding;
+            flex-shrink: 0;
+            border-bottom: 1px solid $border_color;
+            background: #fff;
+            font-size: 12px;
+            color: $font_color_light;
+        }
+
+        .play-list {
+            // position: absolute;
+            // top: 100px; bottom: 0;
+            // width: 100%;
+            flex-grow: 1;
+            background: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+
+            .placeholder,
+            .loading {
+                // Fix height 100% not working: http://stackoverflow.com/a/15389545/596206
+                // position: absolute;
+                // width: 100%; height: 100%;
+                flex-grow: 1;
+                color: $font_color_light;
+                font-size: 1.2em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                span {
+                    display: inline-block;
+                }
+            }
+            .loading {
+                display: none;
+            }
+
+            ul {
+                display: none;
+                flex-grow: 1;
+                margin: 0; padding: 0;
+                list-style: none;
+            }
 
             li {
-                border-bottom: 1px solid #ddd;
-                padding: 10px;
-            }
-            li .grid-item {
-                width: 100px;
-                height: 100px;
-                background-size: 100px 100px;
-                border: 1px solid blue;
+                display: flex;
+                align-items: center;
+                padding: 10px $main_padding;
+                &:nth-child(even) {
+                    background: #f5f5f5;
+                }
+                .grid-item {
+                    width: 100px;
+                    height: 100px;
+                    margin-right: $main_padding;
+                    background-size: 100px 100px;
+                    border: 1px solid transparent;
+                    &:hover {
+                        border: 1px solid #4696FF;
+                    }
+                }
+                .song-info {
+                    >span {
+                        color: $font_color_normal;
+                    }
+                    .title {
+                        display: block;
+                        font-size: 16px;
+                        margin-bottom: 1em;
+                    }
+                    .album {
+                        display: inline-block;
+                        &:after {
+                            content: "-";
+                            display: inline-block;
+                            margin: 0 0.5em;
+                        }
+                    }
+                    .artist {
+                        display: inline-block;
+                    }
+                    &:after {
+                        content: "";
+                        display: block;
+                        clear: both;
+                    }
+                }
             }
         }
     }
+
+    .grid-item {
+        .close {
+            display: none;
+            position: absolute;
+            right: 5px; top: 5px;
+            padding: 5px 8px;
+            transition: all 0.2s ease;
+
+            font-size: 18px;
+            cursor: pointer;
+            &:hover {
+                color: red;
+            }
+        }
+    }
+}
+
+
+._ui-input {
+    padding: 0.2em;
+    outline: none;
+    font-size: 13px;
 }

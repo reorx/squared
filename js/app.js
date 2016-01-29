@@ -1,12 +1,19 @@
 (function(window) {
     var console = window.console;
 
+    var squared_box = $('.squared-box'),
+        squared_box_dom = $('.squared-box')[0];
+
+    var adjustSquaredHeight = function() {
+        squared_box.height(squared_box.width());
+    };
+    $(window).on('resize', function() {
+        adjustSquaredHeight();
+    });
+
     $(function() {
         console.log('app.js');
-
-        var squared_box = $('.squared-box'),
-            squared_box_dom = $('.squared-box')[0];
-        squared_box.height(squared_box.width());
+        $(window).trigger('resize');
 
         // use 9 grids
         squared_box.addClass('-grids-9');
@@ -23,15 +30,44 @@
         });
 
 
+
+        // Bind url-box
+        var url_box = $('.url-box');
+        url_box.find('input').on('change', function() {
+            console.log('changed', this.value);
+            var url = this.value;
+            if (!url)
+                return;
+            renderPlaylist(url);
+        });
+
+        var renderPlaylist = function(url) {
+            var $playlist = $('.play-list'),
+                $placeholder = $playlist.find('.placeholder'),
+                $loading = $playlist.find('.loading'),
+                $content = $playlist.find('ul'),
+                $statusbar = $('.status-bar');
+
+            $placeholder.hide();
+            $content.hide();
+            $loading.show().css('display', 'flex');
+            fetchPlaylist(url).then(function(json) {
+                _renderPlaylist(json, $content, $statusbar);
+
+                $loading.hide();
+                $content.show();
+            });
+        };
+
         var playlist_template = Handlebars.compile($('#playlist-template').html());
 
-        var renderPlaylist = function(json) {
-            var $playlist = $('.play-list'),
-                rendered = $(playlist_template({playlist: json}));
+        var _renderPlaylist = function(json, container, statusbar) {
+            statusbar.html('Total: ' + json.length + ' songs');
+            var rendered = $(playlist_template({playlist: json}));
 
-            $playlist.html(rendered);
+            container.html(rendered);
             // playlist sortable
-            $playlist.find('li').each(function() {
+            container.find('li').each(function() {
                 Sortable.create(this, {
                     group: {
                         name: 'default',
@@ -50,30 +86,17 @@
                     animation: 150,
                 });
             });
-
-            // Bind sortable
         };
 
-
-        // Bind url-box
-        var url_box = $('.url-box');
-        url_box.find('input').on('change', function() {
-            console.log('changed', this.value);
-            var url = this.value;
-            if (!url)
-                return;
-
-            $.ajax({
+        var fetchPlaylist = function(url) {
+            return $.ajax({
                 url: '/api/get_spotify_playlist',
                 type: 'POST',
                 data: {
                     playlist_url: url
-                },
-                success: function(json) {
-                    renderPlaylist(json);
                 }
             });
-        });
+        };
 
     });
 

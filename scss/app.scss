@@ -43,6 +43,7 @@ body {
         flex-direction: column;
 
         .squared-box {
+            flex-shrink: 0;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
@@ -98,6 +99,7 @@ body {
             }
             > input {
                 flex-grow: 1;
+                border: 1px solid $border_color;
             }
         }
 

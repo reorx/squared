@@ -9,12 +9,20 @@ import logging
 from torext.app import TorextApp
 from torext.handlers import BaseHandler
 from tornado.httpclient import AsyncHTTPClient
+from tornado.web import StaticFileHandler
 from tornado import gen
 from squared.auth import SpotifyMixin
 import settings
 
 
 app = TorextApp(settings)
+
+
+app.route_many([
+    (r'/bower_components/(.*)', StaticFileHandler, {'path': os.path.join(app.root_path, '../bower_components')}),
+    (r'/js/(.*)', StaticFileHandler, {'path': os.path.join(app.root_path, '../js')}),
+    (r'/css/(.*)', StaticFileHandler, {'path': os.path.join(app.root_path, '../css')}),
+])
 
 
 @app.route('/')

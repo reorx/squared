@@ -23,8 +23,6 @@ LOG_RESPONSE = False
 
 TIME_ZONE = 'Asia/Shanghai'
 
-STATIC_PATH = '..'
-
 TEMPLATE_PATH = '..'
 
 # You can use jinja2 instead

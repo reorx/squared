@@ -24,7 +24,7 @@ class IndexHandler(BaseHandler):
         self.write_file(index_path)
 
 
-SPOTIFY_PLAYLIST_URL_REGEX = re.compile(r'^https:\/\/play.spotify.com\/user\/(\w+)\/playlist\/(\w+)$')
+SPOTIFY_PLAYLIST_URL_REGEX = re.compile(r'^https:\/\/\w+.spotify.com\/user\/(\w+)\/playlist\/(\w+)$')
 
 
 def match_user_and_id(url):

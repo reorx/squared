@@ -96,12 +96,18 @@
     var url_box = $('.url-box');
 
     var initURLBox = function() {
-        url_box.find('input').on('change', function() {
-            // console.log('changed', this.value);
-            var url = this.value;
+        var url_input = url_box.find('input[name=url]');
+
+        url_box.find('form').on('submit', function(e) {
+            // console.log('submit', this.value);
+            e.preventDefault();
+            url_input.prop('disabled', true);
+            var url = url_input.val();
             if (!url)
                 return;
-            renderPlaylist(url);
+            renderPlaylist(url).then(function() {
+                url_input.prop('disabled', false);
+            });
         });
     };
 
@@ -118,7 +124,7 @@
         $placeholder.hide();
         $content.hide();
         $loading.show().css('display', 'flex');
-        fetchPlaylist(url).then(function(json) {
+        return fetchPlaylist(url).then(function(json) {
             _renderPlaylist(json, $content, $statusbar);
 
             $loading.hide();

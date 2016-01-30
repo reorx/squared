@@ -33,9 +33,9 @@ a, a:visited {
         width: auto;
     }
 
+    display: flex;
+
     .left-column {
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
         box-sizing: border-box;
         width: 45%;
         min-width: calc(300px + #{$main_padding * 2});
@@ -51,7 +51,6 @@ a, a:visited {
             background: #fff;
             margin-bottom: $main_padding;
             position: relative;
-            min-width: 300px;
             min-height: 300px;
 
             &.-grids-9 {
@@ -111,10 +110,9 @@ a, a:visited {
     }
 
     .right-column {
-        position: absolute;
-        right: $main_padding; top: $main_padding; bottom: $main_padding;
-        box-sizing: border-box;
-        width: calc(55% - #{$main_padding});
+        width: 55%;
+        padding: $main_padding;
+        padding-left: 0;
         display: flex;
         flex-direction: column;
 

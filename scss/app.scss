@@ -38,7 +38,7 @@ a, a:visited {
     .left-column {
         box-sizing: border-box;
         width: 45%;
-        min-width: calc(300px + #{$main_padding * 2});
+        min-width: 350px;
         padding: $main_padding;
         display: flex;
         flex-direction: column;
@@ -83,6 +83,7 @@ a, a:visited {
             flex-direction: column;
             .row {
                 padding-bottom: 15px;
+                white-space: nowrap;
                 >label {
                     vertical-align: middle;
                     margin-right: .5em;
@@ -110,7 +111,9 @@ a, a:visited {
     }
 
     .right-column {
+        box-sizing: border-box;
         width: 55%;
+        min-width: 400px;
         padding: $main_padding;
         padding-left: 0;
         display: flex;

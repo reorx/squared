@@ -10,6 +10,6 @@ run:
 
 deploy:
 	@echo "\n# Sync files"
-	rsync -avr --exclude-from=rsync_excludes.txt --delete --delete-excluded . $(host):/tmp/squared
+	rsync -avr --exclude-from=rsync_excludes.txt . $(host):~/squared
 	@echo "\n# Restart service"
 	ssh $(host) "cd supervisor && supervisorctl restart squared"

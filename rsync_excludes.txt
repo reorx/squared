@@ -1,0 +1,5 @@
+*.pyc
+.git
+node_modules
+scss
+squared/local_settings.py

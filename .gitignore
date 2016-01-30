@@ -5,3 +5,4 @@ css/
 *.html
 .sass-cache/
 squared/local_settings.py
+.deployhost

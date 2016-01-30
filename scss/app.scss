@@ -38,6 +38,7 @@ a, a:visited {
         left: 0; top: 0; bottom: 0;
         box-sizing: border-box;
         width: 45%;
+        min-width: calc(300px + #{$main_padding * 2});
         padding: $main_padding;
         display: flex;
         flex-direction: column;
@@ -50,6 +51,8 @@ a, a:visited {
             background: #fff;
             margin-bottom: $main_padding;
             position: relative;
+            min-width: 300px;
+            min-height: 300px;
 
             &.-grids-9 {
                 .grid-item {

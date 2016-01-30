@@ -168,7 +168,7 @@ body {
                 .grid-item {
                     width: 80px;
                     height: 80px;
-                    background-size: 80px 80px;
+                    // background-size: 80px 80px;
                     margin-right: $main_padding;
                     border: 1px solid transparent;
                     &:hover {
@@ -206,6 +206,11 @@ body {
     }
 
     .grid-item {
+        >img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
         .close {
             display: none;
             position: absolute;

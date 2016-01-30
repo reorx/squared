@@ -85,6 +85,9 @@
     };
 
 
+    // canvas download
+
+
     $(function() {
         $(window).on('resize', function() {
             adjustSquaredHeight();

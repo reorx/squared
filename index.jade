@@ -28,7 +28,8 @@ html
     script#playlist-template(type="text/x-handlebars-template").
       {{#playlist}}
         <li>
-          <div class="grid-item" style="background-image: url({{album.images.0.url}})">
+          <div class="grid-item">
+            <img src="{{album.images.0.url}}">
             <div class="close">✖</div>
           </div>
           <div class="song-info">

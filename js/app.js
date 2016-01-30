@@ -1,7 +1,8 @@
 (function(window) {
     var console = window.console,
         current_mode,
-        support_modes = [9];
+        support_modes = [9],
+        SPOTIFY_IMAGE_WIDTH = 640;
 
 
     var squared_box = $('.squared-box'),
@@ -21,7 +22,7 @@
         squared_box.addClass('-grids-' + number);
 
         current_mode = {
-            number: number
+            grid_number: number
         };
     };
 
@@ -86,6 +87,56 @@
 
 
     // canvas download
+    // XXX ensure every image is loaded
+    var drawGridCanvas = function(grid_number, image_width, images) {
+        var canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d'),
+            sqrt = Math.sqrt(grid_number);
+        // adjust size
+        canvas.width = image_width * sqrt;
+        canvas.height = image_width * sqrt;
+        // set background
+        ctx.fillStyle = '#eee';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        var drawGrid = function(img, seq) {
+            var x = (seq % 3) * image_width,
+                y = Math.floor((seq / 3)) * image_width;
+            ctx.drawImage(img, x, y, image_width, image_width);
+        };
+
+        // draw each image
+        images.each(function(i, img) {
+            drawGrid(img, i);
+        });
+        return canvas;
+    };
+
+    var downloadCanvasImage = function(canvas, filename, size) {
+        var a = document.createElement('a'),
+            class_name = '_canvas-downloader',
+            resized_canvas;
+        $('.' + class_name).remove();
+
+        // resize
+        if (canvas.width === size) {
+            resized_canvas = canvas;
+        } else {
+            resized_canvas = document.createElement('canvas');
+            resized_canvas.width = size;
+            resized_canvas.height = size;
+            var rctx = resized_canvas.getContext('2d');
+            rctx.drawImage(canvas,
+                0, 0, canvas.width, canvas.height,
+                0, 0, resized_canvas.width, resized_canvas.height);
+        }
+
+        a.href = resized_canvas.toDataURL('image/jpeg', 1.0);
+        a.download = filename + '-' + size + 'X' + size + '.jpeg';
+        a.className = class_name;
+        document.body.appendChild(a);
+        a.click();
+    };
 
 
     $(function() {
@@ -112,6 +163,21 @@
 
         // Set grid mode, use select to support more later
         setGridMode(9);
+
+
+        // Bind settings box
+        var settings_box = $('.settings-box');
+        settings_box.find('.download').on('click', function() {
+            var images = squared_box.find('.grid-item > img');
+            if (!images.length) {
+                alert('Please set at least one image');
+                return;
+            }
+            // var image_width = images[0].width;
+            var image_width = SPOTIFY_IMAGE_WIDTH;
+            var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
+            downloadCanvasImage(canvas, 'artwork', 1200);
+        });
 
 
         // Bind url-box

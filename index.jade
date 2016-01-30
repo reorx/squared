@@ -2,13 +2,14 @@ doctype html
 html
   head
     title Squared
+    meta(charset="UTF-8")
   link(rel="stylesheet", href="/css/app.css")
   body
     #main
       .left-column
         .squared-box
         .settings-box._round-0
-          div .settings-box
+          button.download Download
       .right-column
         .url-box._round-0
           select(readonly)
@@ -21,15 +22,12 @@ html
           .loading
             span Loading playlist...
           ul
-            //- li
-            //-   .grid-item(style="background-image: url(https://i.scdn.co/image/0ba05bf089098f8daab52774a2bf9be294bfb93e)")
-            //-     .close ✖
 
     script#playlist-template(type="text/x-handlebars-template").
       {{#playlist}}
         <li>
           <div class="grid-item">
-            <img src="{{album.images.0.url}}">
+            <img src="{{album.images.0.url}}" crossOrigin="anonymous">
             <div class="close">✖</div>
           </div>
           <div class="song-info">

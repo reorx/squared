@@ -9,10 +9,14 @@ html
       .left-column
         .squared-box
         .settings-box._round-0
+          select(name="size")
+            option(value="origin") origin (1920X1920)
+            option(value="1200") 1200X1200
+            option(value="300") 300X300
           button.download Download
       .right-column
         .url-box._round-0
-          select(readonly)
+          select
             option(value="spotify") Spotify
           input(type="text")._ui-input
         .play-list._round-0

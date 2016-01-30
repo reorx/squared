@@ -119,7 +119,11 @@
         $('.' + class_name).remove();
 
         // resize
+        if (size === undefined) {
+            size = SPOTIFY_IMAGE_WIDTH * 3;
+        }
         if (canvas.width === size) {
+            console.log('no need to resize');
             resized_canvas = canvas;
         } else {
             resized_canvas = document.createElement('canvas');
@@ -149,6 +153,7 @@
         // Bind grid box
         var squared_box = $('.squared-box'),
             squared_box_dom = $('.squared-box')[0];
+
         Sortable.create(squared_box_dom, {
             group: {
                 name: 'default',
@@ -157,6 +162,7 @@
             animation: 200,
             filter: '.close',
         });
+
         squared_box.on('click',  '.close', function(e) {
             $(e.target).closest('.grid-item').remove();
         });
@@ -167,21 +173,30 @@
 
         // Bind settings box
         var settings_box = $('.settings-box');
+
         settings_box.find('.download').on('click', function() {
-            var images = squared_box.find('.grid-item > img');
+            var images = squared_box.find('.grid-item > img'),
+                size = settings_box.find('select[name=size]').val();
+            if (size === 'origin') {
+                size = undefined;
+            } else {
+                size = Number(size);
+            }
+            console.log('download size', size);
             if (!images.length) {
-                alert('Please set at least one image');
+                alert('Please select at least one image in the grid box');
                 return;
             }
             // var image_width = images[0].width;
             var image_width = SPOTIFY_IMAGE_WIDTH;
             var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
-            downloadCanvasImage(canvas, 'artwork', 1200);
+            downloadCanvasImage(canvas, 'artwork', size);
         });
 
 
         // Bind url-box
         var url_box = $('.url-box');
+
         url_box.find('input').on('change', function() {
             // console.log('changed', this.value);
             var url = this.value;

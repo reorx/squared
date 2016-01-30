@@ -29,7 +29,6 @@ TEMPLATE_PATH = '..'
 TEMPLATE_ENGINE = 'tornado'
 
 LOGGING_IGNORE_URLS = [
-    '/favicon.ico',
 ]
 
 REQUEST_TIMEOUT = 8

@@ -11,11 +11,22 @@ html
           .placeholder._centered_hint
             span Drag or click to add artwork
         .settings-box._round_0
-          select(name="size")
-            option(value="origin") origin (1920X1920)
-            option(value="1200") 1200X1200
-            option(value="300") 300X300
-          button.download Download
+          .row
+            label Grid:
+            select(name="grid_number")
+              option(value="9") 9X9
+          .row
+            label Size:
+            select(name="size")
+              option(value="origin") origin (1920X1920)
+              option(value="1200") 1200X1200
+              option(value="300") 300X300
+            button.download Download
+          .row.footer
+            img.favicon(src="/favicon.ico")
+            a(href="https://github.com/reorx/squared" target="_blank") squared
+            span , made by&nbsp
+            a(href="https://twitter.com/novoreorx" target="_blank") @reorx
       .right-column
         .url-box._round_0
           select

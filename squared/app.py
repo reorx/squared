@@ -16,6 +16,9 @@ import settings
 
 
 app = TorextApp(settings)
+app.update_settings({
+    'STATIC_PATH': None
+})
 
 
 app.route_many([
@@ -29,6 +32,13 @@ app.route_many([
 class IndexHandler(BaseHandler):
     def get(self):
         index_path = os.path.join(self.app.root_path, '../index.html')
+        self.write_file(index_path)
+
+
+@app.route('/favicon.ico')
+class FaviconHandler(BaseHandler):
+    def get(self):
+        index_path = os.path.join(self.app.root_path, '../images/favicon.ico')
         self.write_file(index_path)
 
 

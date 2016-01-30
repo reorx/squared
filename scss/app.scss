@@ -18,6 +18,11 @@ body {
     background: #eaeaea;
 }
 
+a, a:visited {
+    color: #52B9FF;
+    text-decoration: none;
+}
+
 #main {
     // display: flex;
     // align-items: stretch;
@@ -77,6 +82,25 @@ body {
             background: #fff;
             flex-grow: 1;
             padding: $main_padding;
+            display: flex;
+            flex-direction: column;
+            .row {
+                flex-grow: 1;
+            }
+            .row.footer {
+                flex-grow: 0;
+                border-top: 1px solid $border_color;
+                padding-top: 10px;
+                color: $font_color_light;
+                .favicon {
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 5px;
+                }
+                >* {
+                    vertical-align: middle;
+                }
+            }
         }
     }
 

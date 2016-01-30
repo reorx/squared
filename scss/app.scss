@@ -239,10 +239,8 @@ a, a:visited {
 ._centered_hint {
     // Fix height 100% not working: http://stackoverflow.com/a/15389545/596206
     position: absolute;
-    // width: 100%; height: 100%;
     left: 0; right: 0; top: 0; bottom: 0;
 
-    // flex-grow: 1;
     color: $font_color_light;
     font-size: 1.2em;
     display: flex;
@@ -251,6 +249,7 @@ a, a:visited {
 
     span {
         display: inline-block;
+        -webkit-user-select: none;
     }
 }
 

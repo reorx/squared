@@ -13,15 +13,15 @@ html
         .settings-box._round_0
           .row
             label Grid:
-            select(name="grid_number")
+            select(name="grid_number")._select
               option(value="9") 9X9
           .row
             label Size:
-            select(name="size")
+            select(name="size")._select
               option(value="origin") origin (1920X1920)
               option(value="1200") 1200X1200
               option(value="300") 300X300
-            button.download Download
+            button.download._button Download
           .row.footer
             img.favicon(src="/favicon.ico")
             a(href="https://github.com/reorx/squared" target="_blank") squared
@@ -29,7 +29,7 @@ html
             a(href="https://twitter.com/novoreorx" target="_blank") @reorx
       .right-column
         .url-box._round_0
-          select
+          select._select
             option(value="spotify") Spotify
           input(type="text")._input
         .play-list._round_0
@@ -43,9 +43,11 @@ html
     script#playlist-template(type="text/x-handlebars-template").
       {{#playlist}}
         <li>
-          <div class="grid-item">
-            <img src="{{album.images.0.url}}" crossOrigin="anonymous">
-            <div class="close">✖</div>
+          <div class="grid-item-wrapper">
+            <div class="grid-item">
+              <img src="{{album.images.0.url}}" crossOrigin="anonymous">
+              <div class="close">✖</div>
+            </div>
           </div>
           <div class="song-info">
             <span class="title">{{name}}</span>

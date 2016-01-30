@@ -34,7 +34,6 @@
                 name: 'default',
                 pull: false,
             },
-            // draggable: '.grid-item',
             animation: 200,
             filter: '.close',
             onAdd: function() {
@@ -92,7 +91,7 @@
     };
 
 
-    // Url box views
+    // URL box views
 
     var url_box = $('.url-box');
 
@@ -135,7 +134,7 @@
 
         container.html(rendered);
         // Make sortable
-        container.find('li').each(function() {
+        container.find('li .grid-item-wrapper').each(function() {
             Sortable.create(this, {
                 group: {
                     name: 'default',
@@ -143,11 +142,11 @@
                     put: false,
                 },
                 onMove: function (e) {
-                    if (e.to === squared_box_dom) {
-                        if (squared_box_dom.childNodes.length >= 9) {
-                            console.log('full');
-                            return false;
-                        }
+                    if (e.to !== squared_box_dom)
+                        return;
+                    if (squared_box.find('.grid-item').length >= current_mode.grid_number) {
+                        console.log('grid box is full');
+                        return false;
                     }
                 },
                 draggable: '.grid-item',

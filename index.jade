@@ -8,22 +8,24 @@ html
     #main
       .left-column
         .squared-box
-        .settings-box._round-0
+          .placeholder._centered_hint
+            span Drag or click to add artwork
+        .settings-box._round_0
           select(name="size")
             option(value="origin") origin (1920X1920)
             option(value="1200") 1200X1200
             option(value="300") 300X300
           button.download Download
       .right-column
-        .url-box._round-0
+        .url-box._round_0
           select
             option(value="spotify") Spotify
-          input(type="text")._ui-input
-        .play-list._round-0
+          input(type="text")._input
+        .play-list._round_0
           .status-bar &nbsp
-          .placeholder
+          .placeholder._centered_hint
             span Enter URL above to load playlist
-          .loading
+          .loading._centered_hint
             span Loading playlist...
           ul
 

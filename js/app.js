@@ -4,7 +4,7 @@
         support_modes = [9],
         SPOTIFY_IMAGE_WIDTH = 640;
 
-
+    // Square box functions
     var squared_box = $('.squared-box'),
         squared_box_dom = $('.squared-box')[0];
 
@@ -79,6 +79,7 @@
             console.log('click grid item', this, e.target);
             var grid_item = $(e.target).closest('.grid-item');
             grid_item.clone().appendTo(squared_box);
+            squared_box.trigger('grid_changed');
         });
     };
 
@@ -168,10 +169,24 @@
             },
             animation: 200,
             filter: '.close',
+            onAdd: function() {
+                squared_box.trigger('grid_changed');
+            }
+        });
+
+        squared_box.on('grid_changed', function() {
+            console.log(' grid changed');
+            var placeholder = squared_box.find('.placeholder');
+            if (squared_box.find('.grid-item').length) {
+                placeholder.hide();
+            } else {
+                placeholder.show();
+            }
         });
 
         squared_box.on('click',  '.close', function(e) {
             $(e.target).closest('.grid-item').remove();
+            squared_box.trigger('grid_changed');
         });
 
         // Set grid mode, use select to support more later

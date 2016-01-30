@@ -172,6 +172,7 @@ body {
                     // background-size: 80px 80px;
                     margin-right: $main_padding;
                     border: 1px solid transparent;
+                    cursor: pointer;
                     &:hover {
                         border: 1px solid #4696FF;
                     }
@@ -222,7 +223,7 @@ body {
             font-size: 18px;
             cursor: pointer;
             &:hover {
-                color: red;
+                color: #e52d27;
             }
         }
     }

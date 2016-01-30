@@ -73,6 +73,13 @@
                 animation: 150,
             });
         });
+
+        // playlist clickable
+        container.on('click', 'li .grid-item', function(e) {
+            console.log('click grid item', this, e.target);
+            var grid_item = $(e.target).closest('.grid-item');
+            grid_item.clone().appendTo(squared_box);
+        });
     };
 
     var fetchPlaylist = function(url) {

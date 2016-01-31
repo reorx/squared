@@ -1,0 +1,24 @@
+@import "variables";
+@import "../bower_components/sweetalert/dev/sweetalert";
+
+
+.sweet-alert {
+    border-radius: $border_radius;
+    h2 {
+        color: $font_color_large_title;
+        font-size: 2em;
+    }
+    p {
+        font-size: 1.2em;
+        color: #666;
+    }
+    .sa-confirm-button-container {
+        margin-bottom: 15px;
+    }
+    button {
+        font-size: 1.2em;
+        padding: .6em 2em;
+        border-radius: $border_radius;
+    }
+
+}

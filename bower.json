@@ -22,6 +22,7 @@
     "normalize-scss": "~3.0.3",
     "Sortable": "~1.4.2",
     "jquery": "~2.2.0",
-    "handlebars": "~4.0.5"
+    "handlebars": "~4.0.5",
+    "sweetalert": "~1.1.3"
   }
 }

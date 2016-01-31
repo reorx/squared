@@ -92,13 +92,20 @@ a, a:visited {
                 padding-top: 15px;
                 padding-bottom: 0;
                 color: $font_color_light;
+                >* {
+                    vertical-align: middle;
+                }
                 .favicon {
                     width: 18px;
                     height: 18px;
                     margin-right: 5px;
                 }
-                >* {
-                    vertical-align: middle;
+                .whatsthis {
+                    margin-left: 1em;
+                    &:hover {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
                 }
             }
         }

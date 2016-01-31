@@ -88,6 +88,21 @@
             var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
             downloadCanvasImage(canvas, 'artwork', size);
         });
+
+        var text = "squared is a small tool for creating grid layout images \
+        from a list of songs, it's a gift for a friend \
+        to express appreciation for his great music taste and recommending music to me. \
+        Currently squared only supports making 9x9 grid layout from Spotify playlist url, \
+        if further need is shown, I can extend it to support more layouts and sources. :)"
+        settings_box.find('.whatsthis').on('click', function() {
+            swal({
+                title: 'Squared',
+                text: text,
+                imageUrl: '/favicon.ico',
+                customClass: '_alignleft',
+                confirmButtonText: 'I Got It',
+            });
+        });
     };
 
 

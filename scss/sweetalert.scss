@@ -10,7 +10,13 @@
     }
     p {
         font-size: 1.2em;
-        color: #666;
+        color: #555;
+    }
+    &._alignleft p {
+        font-size: 1.3em;
+        text-align: left;
+        padding: 0 1em;
+        line-height: 1.3em;
     }
     .sa-confirm-button-container {
         margin-bottom: 15px;

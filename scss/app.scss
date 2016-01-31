@@ -1,11 +1,5 @@
 @import "_base.scss";
-
-$main_width: 1200px;
-$main_padding: 20px;
-$main_padding_int: 20;
-$border_color: #eaeaea;
-$font_color_normal: #222;
-$font_color_light: #888;
+@import "_formel.scss";
 
 html, body {
     height: 100%;
@@ -239,6 +233,8 @@ a, a:visited {
 }
 
 
+// non-logic styles
+
 ._centered_hint {
     // Fix height 100% not working: http://stackoverflow.com/a/15389545/596206
     position: absolute;
@@ -258,49 +254,4 @@ a, a:visited {
 
 ._round_0 {
     border-radius: 2px;
-}
-
-// Below is a small sets of form element styles inspired by purecss
-
-._fe_base {
-    display: inline-block;
-    height: 2em;
-    line-height: 1.5em;
-    padding: 0 .6em;
-    vertical-align: middle;
-    box-sizing: border-box;
-    border-radius: 2px;
-}
-
-._button {
-    @extend ._fe_base;
-    text-align: center;
-    border: 0;
-    background: #e9e9e9;
-    &:focus {
-        outline: none;
-    }
-    &:active {
-        box-shadow: 0 0 0 1px rgba(30,30,30,.15) inset,0 0 6px rgba(30,30,30,.2) inset;
-    }
-}
-
-._select {
-    @extend ._fe_base;
-    border: 0;
-    background: #eaeaea;
-    &:focus {
-        outline: 0;
-        border-color: #129FEA;
-    }
-}
-
-._input {
-    @extend ._fe_base;
-    padding: 0.3em 0.6em;
-    border: 1px solid #ccc;
-    &:focus {
-        outline: 0;
-        border-color: #129FEA;
-    }
 }

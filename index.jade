@@ -25,13 +25,14 @@ html
           .row.footer
             img.favicon(src="/favicon.ico")
             a(href="https://github.com/reorx/squared" target="_blank") squared
-            span , made by&nbsp
+            span , created by&nbsp
             a(href="https://twitter.com/novoreorx" target="_blank") @reorx
       .right-column
         .url-box._round_0
-          select._select
-            option(value="spotify") Spotify
-          input(type="text")._input
+          form
+            select._select
+              option(value="spotify") Spotify
+            input(type="url", name="url", required)._input
         .play-list._round_0
           .status-bar &nbsp
           .placeholder._centered_hint

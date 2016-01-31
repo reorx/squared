@@ -101,11 +101,11 @@
         url_box.find('form').on('submit', function(e) {
             // console.log('submit', this.value);
             e.preventDefault();
-            url_input.prop('disabled', true);
             var url = url_input.val();
             if (!url)
                 return;
-            renderPlaylist(url).then(function() {
+            url_input.prop('disabled', true);
+            renderPlaylist(url).always(function() {
                 url_input.prop('disabled', false);
             });
         });
@@ -129,6 +129,14 @@
 
             $loading.hide();
             $content.show();
+        }, function(jqxhr) {
+            // status, responseText
+            swal({
+                title: 'Failed to parse url',
+                text: 'Please make sure you have input a valid playlist url',
+                type: 'error',
+            });
+            console.warn('failed', arguments);
         });
     };
 

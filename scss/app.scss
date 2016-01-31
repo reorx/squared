@@ -123,15 +123,17 @@ a, a:visited {
             padding: $main_padding;
             border-bottom: 1px solid #eee;
             background: #fff;
-            display: flex;
-            align-items: center;
+            // align-items: center;
             margin-bottom: $main_padding;
 
-            > select {
-                margin-right: $main_padding;
-            }
-            > input {
-                flex-grow: 1;
+            form {
+                display: flex;
+                select {
+                    margin-right: $main_padding;
+                }
+                input {
+                    flex-grow: 1;
+                }
             }
         }
 

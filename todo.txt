@@ -1,0 +1,2 @@
+- [ ] file type select
+- [ ] 2x2 grid support

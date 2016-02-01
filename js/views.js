@@ -27,6 +27,14 @@
         };
     };
 
+    var checkGridNumber = function() {
+        if (squared_box.find('.grid-item').length >= current_mode.grid_number) {
+            console.log('squared box is full, max grid number reached');
+            return false;
+        }
+        return true;
+    };
+
     var initSquaredBox = function() {
         // Make sortable
         Sortable.create(squared_box_dom, {
@@ -48,7 +56,7 @@
 
         // Bind grid_change
         squared_box.on('grid_changed', function() {
-            console.log(' grid changed');
+            // console.log(' grid changed');
             var placeholder = squared_box.find('.placeholder');
             if (squared_box.find('.grid-item').length) {
                 placeholder.hide();
@@ -174,10 +182,7 @@
                 onMove: function (e) {
                     if (e.to !== squared_box_dom)
                         return;
-                    if (squared_box.find('.grid-item').length >= current_mode.grid_number) {
-                        console.log('grid box is full');
-                        return false;
-                    }
+                    return checkGridNumber();
                 },
                 draggable: '.grid-item',
                 animation: 150,
@@ -186,7 +191,8 @@
 
         // Bind click
         container.on('click', 'li .grid-item', function(e) {
-            console.log('click grid item', this, e.target);
+            if (!checkGridNumber())
+                return;
             var grid_item = $(e.target).closest('.grid-item');
             grid_item.clone().appendTo(squared_box);
             squared_box.trigger('grid_changed');

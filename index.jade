@@ -22,6 +22,11 @@ html
             label Size:
             select(name="size")._select
               option(value="origin") origin
+          .row
+            label Type:
+            select(name="filetype")._select
+              option(value="jpeg") jpeg
+              option(value="png") png
             button.download._button Download
           .row.footer
             img.favicon(src="/favicon.ico")

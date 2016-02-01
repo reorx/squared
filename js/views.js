@@ -161,18 +161,24 @@
                 alert('Please select at least one image in the grid box');
                 return;
             }
+
             // Create grid canvas
             var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
 
-            // Save that canvas
+            // Get size for save
             var size = settings_box.find('select[name=size]').val();
             if (size === 'origin') {
                 size = canvas.width;
             } else {
                 size = Number(size);
             }
-            console.log('download size', size);
-            canvas_util.saveCanvasImage(canvas, size, 'artwork', 'jpeg');
+
+            // Get type for save
+            var filetype = settings_box.find('select[name=filetype]').val();
+
+            // Save that canvas
+            console.log('save args:', size, filetype);
+            canvas_util.saveCanvasImage(canvas, size, 'artwork', filetype);
         });
 
         /*jshint multistr: true */

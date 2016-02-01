@@ -3,3 +3,4 @@
 node_modules
 scss
 squared/local_settings.py
+config.codekit

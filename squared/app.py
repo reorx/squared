@@ -7,7 +7,7 @@ import time
 import json
 import logging
 from torext.app import TorextApp
-from torext.handlers import BaseHandler
+from torext.handlers import BaseHandler as _BaseHandler
 from tornado.httpclient import AsyncHTTPClient
 from tornado.web import StaticFileHandler
 from tornado import gen
@@ -21,11 +21,38 @@ app.update_settings({
 })
 
 
+# For local dev
 app.route_many([
     (r'/bower_components/(.*)', StaticFileHandler, {'path': os.path.join(app.root_path, '../bower_components')}),
     (r'/js/(.*)', StaticFileHandler, {'path': os.path.join(app.root_path, '../js')}),
     (r'/css/(.*)', StaticFileHandler, {'path': os.path.join(app.root_path, '../css')}),
 ])
+
+
+class HTTPRequestFailed(Exception):
+    pass
+
+
+class BaseHandler(_BaseHandler):
+    EXCEPTION_HANDLERS = {
+        HTTPRequestFailed: '_handle_request_failed',
+        ValueError: '_handle_param_error',
+    }
+
+    def send_json_error(self, status_code, message, ):
+        rv = {
+            'error': {
+                'message': message,
+            }
+        }
+        self.set_status(status_code)
+        self.write_json(rv)
+
+    def _handle_request_failed(self, e):
+        self.send_json_error(403, str(e))
+
+    def _handle_param_error(self, e):
+        self.send_json_error(400, str(e))
 
 
 @app.route('/')
@@ -35,6 +62,7 @@ class IndexHandler(BaseHandler):
         self.write_file(index_path)
 
 
+# For local dev
 @app.route('/favicon.ico')
 class FaviconHandler(BaseHandler):
     def get(self):
@@ -59,7 +87,7 @@ class SpotifyPlaylistHandler(BaseHandler):
         playlist_url = self.get_argument('playlist_url')
         url_args = match_user_and_id(playlist_url)
         if not url_args:
-            raise ValueError('Could not match from playlist url')
+            raise ValueError('Could not match playlist info from given url')
         url = 'https://api.spotify.com/v1/users/%s/playlists/%s' % url_args
 
         token = yield get_client_token()
@@ -88,10 +116,6 @@ def format_spotify_playlist(data):
         }
         d.append(track)
     return d
-
-
-class HTTPRequestFailed(Exception):
-    pass
 
 
 client_credentails_holder = []

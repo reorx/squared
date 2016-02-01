@@ -243,10 +243,19 @@
             $content.show();
         }, function(jqxhr) {
             // status, responseText
+            var message;
+            if (jqxhr.status < 500) {
+                message = JSON.parse(jqxhr.responseText).error.message;
+            } else {
+                message = jqxhr.responseText;
+            }
+            var text = '<div>Please make sure you have input a valid playlist url</div>' +
+            '<pre>' + message + '</pre>';
             swal({
                 title: 'Failed to parse url',
-                text: 'Please make sure you have input a valid playlist url',
+                text: text,
                 type: 'error',
+                html: true,
             });
             console.warn('failed', arguments);
         });

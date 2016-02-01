@@ -1,64 +1,58 @@
 (function() {
     var exports;
 
-    // XXX ensure every image is loaded
-    var drawGridCanvas = function(grid_number, image_width, images) {
-        var canvas = document.createElement('canvas'),
-            ctx = canvas.getContext('2d'),
-            sqrt = Math.sqrt(grid_number);
-        // adjust size
-        canvas.width = image_width * sqrt;
-        canvas.height = image_width * sqrt;
-        // set background
-        ctx.fillStyle = '#eee';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        var drawGrid = function(img, seq) {
-            var x = (seq % 3) * image_width,
-                y = Math.floor((seq / 3)) * image_width;
-            ctx.drawImage(img, x, y, image_width, image_width);
-        };
-
-        // draw each image
-        images.each(function(i, img) {
-            drawGrid(img, i);
-        });
-        return canvas;
+    var file_type_map = {
+        jpeg: 'image/jpeg',
+        png: 'image/png',
     };
 
-    var saveCanvasImage = function(canvas, filename, size) {
+    var saveCanvasImage = function(canvas, size, filename, filetype) {
         var resized_canvas;
 
         // resize
-        if (canvas.width === size) {
+        if (size === canvas.width) {
             console.log('no need to resize');
             resized_canvas = canvas;
         } else {
-            resized_canvas = document.createElement('canvas');
-            resized_canvas.width = size;
-            resized_canvas.height = size;
-            var rctx = resized_canvas.getContext('2d');
-            rctx.drawImage(canvas,
-                0, 0, canvas.width, canvas.height,
-                0, 0, resized_canvas.width, resized_canvas.height);
+            if (size > (canvas.width / 2)) {
+                console.log('resize using simple');
+                resized_canvas = simpleDownScaleCanvas(canvas, size / canvas.width);
+            } else {
+                console.log('resize using algorithm');
+                resized_canvas = downScaleCanvas(canvas, size / canvas.width);
+            }
         }
 
-        filename = filename + '-' + size + 'X' + size + '.jpeg';
+        filename = filename + '-' + size + 'X' + size + '.' + filetype;
         resized_canvas.toBlob(function(blob) {
             saveAs(blob, filename);
-        });
+        }, file_type_map[filetype]);
+    };
+
+    var simpleDownScaleCanvas = function(canvas, scale) {
+        var resized_canvas = document.createElement('canvas');
+        resized_canvas.width = scale * canvas.width;
+        resized_canvas.height = scale * canvas.height;
+        var rctx = resized_canvas.getContext('2d');
+        rctx.drawImage(canvas,
+            0, 0, canvas.width, canvas.height,
+            0, 0, resized_canvas.width, resized_canvas.height);
+        return resized_canvas;
     };
 
     // scales the canvas by (float) scale < 1
     // returns a new canvas containing the scaled image.
     var downScaleCanvas = function(cv, scale) {
         if (scale >= 1 || scale <= 0) throw ('scale must be a positive number <1 ');
-        scale = normaliseScale(scale);
+        // NOTE stop using normalizeScale because it may cause unaccurate target width/height
+        // scale = normaliseScale(scale);
         var sqScale = scale * scale; // square scale =  area of a source pixel within target
         var sw = cv.width; // source image width
         var sh = cv.height; // source image height
         var tw = Math.floor(sw * scale); // target image width
         var th = Math.floor(sh * scale); // target image height
+        console.log('target size', tw, th, scale, sw, sh);
         var sx = 0, sy = 0, sIndex = 0; // source x,y, index within source array
         var tx = 0, ty = 0, yIndex = 0, tIndex = 0; // target x,y, x,y index within target array
         var tX = 0, tY = 0; // rounded tx, ty
@@ -198,7 +192,6 @@
 
 
     exports = {
-        drawGridCanvas: drawGridCanvas,
         saveCanvasImage: saveCanvasImage,
         downScaleCanvas: downScaleCanvas,
     };

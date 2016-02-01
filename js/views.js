@@ -35,6 +35,31 @@
         return true;
     };
 
+    // XXX ensure every image is loaded
+    var drawGridCanvas = function(grid_number, image_width, $images) {
+        var canvas = document.createElement('canvas'),
+            ctx = canvas.getContext('2d'),
+            sqrt = Math.sqrt(grid_number);
+        // adjust size
+        canvas.width = image_width * sqrt;
+        canvas.height = image_width * sqrt;
+        // set background
+        ctx.fillStyle = '#eee';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        var drawGrid = function(img, seq) {
+            var x = (seq % 3) * image_width,
+                y = Math.floor((seq / 3)) * image_width;
+            ctx.drawImage(img, x, y, image_width, image_width);
+        };
+
+        // draw each image
+        $images.each(function(i, img) {
+            drawGrid(img, i);
+        });
+        return canvas;
+    };
+
     var initSquaredBox = function() {
         // Make sortable
         Sortable.create(squared_box_dom, {
@@ -87,7 +112,7 @@
                 return;
             }
             // Create grid canvas
-            var canvas = canvas_util.drawGridCanvas(current_mode.grid_number, image_width, images);
+            var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
 
             // Save that canvas
             var size = settings_box.find('select[name=size]').val();
@@ -97,7 +122,7 @@
                 size = Number(size);
             }
             console.log('download size', size);
-            canvas_util.saveCanvasImage(canvas, 'artwork', size);
+            canvas_util.saveCanvasImage(canvas, size, 'artwork', 'jpeg');
         });
 
         /*jshint multistr: true */

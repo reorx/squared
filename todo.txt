@@ -1,2 +1,3 @@
-- [ ] file type select
-- [ ] 2x2 grid support
+- [x] file type select
+- [x] 2x2 grid support
+- [x] google analytics

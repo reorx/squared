@@ -80,21 +80,24 @@
     var initSettingsBox = function() {
         settings_box.find('.download').on('click', function() {
             var images = squared_box.find('.grid-item > img'),
-                size = settings_box.find('select[name=size]').val();
-            if (size === 'origin') {
-                size = undefined;
-            } else {
-                size = Number(size);
-            }
-            console.log('download size', size);
+                // image_width = images[0].width;
+                image_width = SPOTIFY_IMAGE_WIDTH;
             if (!images.length) {
                 alert('Please select at least one image in the grid box');
                 return;
             }
-            // var image_width = images[0].width;
-            var image_width = SPOTIFY_IMAGE_WIDTH;
-            var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
-            saveCanvasImage(canvas, 'artwork', size);
+            // Create grid canvas
+            var canvas = canvas_util.drawGridCanvas(current_mode.grid_number, image_width, images);
+
+            // Save that canvas
+            var size = settings_box.find('select[name=size]').val();
+            if (size === 'origin') {
+                size = canvas.width;
+            } else {
+                size = Number(size);
+            }
+            console.log('download size', size);
+            canvas_util.saveCanvasImage(canvas, 'artwork', size);
         });
 
         /*jshint multistr: true */
@@ -206,60 +209,6 @@
             data: {
                 playlist_url: url
             }
-        });
-    };
-
-
-    // Canvas views
-
-    // XXX ensure every image is loaded
-    var drawGridCanvas = function(grid_number, image_width, images) {
-        var canvas = document.createElement('canvas'),
-            ctx = canvas.getContext('2d'),
-            sqrt = Math.sqrt(grid_number);
-        // adjust size
-        canvas.width = image_width * sqrt;
-        canvas.height = image_width * sqrt;
-        // set background
-        ctx.fillStyle = '#eee';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        var drawGrid = function(img, seq) {
-            var x = (seq % 3) * image_width,
-                y = Math.floor((seq / 3)) * image_width;
-            ctx.drawImage(img, x, y, image_width, image_width);
-        };
-
-        // draw each image
-        images.each(function(i, img) {
-            drawGrid(img, i);
-        });
-        return canvas;
-    };
-
-    var saveCanvasImage = function(canvas, filename, size) {
-        var resized_canvas;
-
-        // resize
-        if (size === undefined) {
-            size = SPOTIFY_IMAGE_WIDTH * 3;
-        }
-        if (canvas.width === size) {
-            console.log('no need to resize');
-            resized_canvas = canvas;
-        } else {
-            resized_canvas = document.createElement('canvas');
-            resized_canvas.width = size;
-            resized_canvas.height = size;
-            var rctx = resized_canvas.getContext('2d');
-            rctx.drawImage(canvas,
-                0, 0, canvas.width, canvas.height,
-                0, 0, resized_canvas.width, resized_canvas.height);
-        }
-
-        filename = filename + '-' + size + 'X' + size + '.jpeg';
-        resized_canvas.toBlob(function(blob) {
-            saveAs(blob, filename);
         });
     };
 

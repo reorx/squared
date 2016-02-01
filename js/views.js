@@ -86,14 +86,15 @@
             // var image_width = images[0].width;
             var image_width = SPOTIFY_IMAGE_WIDTH;
             var canvas = drawGridCanvas(current_mode.grid_number, image_width, images);
-            downloadCanvasImage(canvas, 'artwork', size);
+            saveCanvasImage(canvas, 'artwork', size);
         });
 
+        /*jshint multistr: true */
         var text = "squared is a small tool for creating grid layout images \
         from a list of songs, it's a gift for a friend \
         to express appreciation for his great music taste and recommending music to me. \
         Currently squared only supports making 9x9 grid layout from Spotify playlist url, \
-        if further need is shown, I can extend it to support more layouts and sources. :)"
+        if further need is shown, I can extend it to support more layouts and sources. :)";
         settings_box.find('.whatsthis').on('click', function() {
             swal({
                 title: 'Squared',
@@ -230,11 +231,8 @@
         return canvas;
     };
 
-    var downloadCanvasImage = function(canvas, filename, size) {
-        var a = document.createElement('a'),
-            class_name = '_canvas-downloader',
-            resized_canvas;
-        $('.' + class_name).remove();
+    var saveCanvasImage = function(canvas, filename, size) {
+        var resized_canvas;
 
         // resize
         if (size === undefined) {
@@ -253,11 +251,10 @@
                 0, 0, resized_canvas.width, resized_canvas.height);
         }
 
-        a.href = resized_canvas.toDataURL('image/jpeg', 1.0);
-        a.download = filename + '-' + size + 'X' + size + '.jpeg';
-        a.className = class_name;
-        document.body.appendChild(a);
-        a.click();
+        filename = filename + '-' + size + 'X' + size + '.jpeg';
+        resized_canvas.toBlob(function(blob) {
+            saveAs(blob, filename);
+        });
     };
 
 

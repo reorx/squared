@@ -187,10 +187,10 @@
 
         /*jshint multistr: true */
         var text = "squared is a small tool for creating grid layout images \
-        from a list of songs, it's a gift for a friend \
-        to express appreciation for his great music taste and recommending music to me. \
-        Currently squared only supports making 9x9 grid layout from Spotify playlist url, \
-        if further need is shown, I can extend it to support more layouts and sources. :)";
+from playlist url, it's a gift for a friend \
+to express my appreciation for his great music taste and recommending music to me.\n\n\
+Currently squared only supports making 3x3 & 2x2 grid layouts from Spotify playlist, \
+if further need is shown, I can extend it to support more layouts and sources. :)";
         settings_box.find('.whatsthis').on('click', function() {
             swal({
                 title: 'Squared',

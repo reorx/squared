@@ -2,7 +2,8 @@
     var exports,
         console = window.console,
         current_mode,
-        support_modes = [9],
+        SUPPORTED_GRID_NUMBERS = [9, 4],
+        OUTPUT_SIZES = [1200, 500, 300],
         SPOTIFY_IMAGE_WIDTH = 640;
 
 
@@ -15,13 +16,50 @@
         squared_box.height(squared_box.width());
     };
 
+    var _createOption = function(value, text) {
+        var el = $('<option></option>');
+        el.val(value);
+        el.html(text);
+        return el;
+    };
+
     var setGridMode = function(number) {
-        if (support_modes.indexOf(number) === -1) {
+        if (SUPPORTED_GRID_NUMBERS.indexOf(number) === -1) {
             alert('Not supported yet');
             current_mode = undefined;
             return;
         }
-        squared_box.addClass('-grids-' + number);
+
+        // Remove redundant grid items
+        squared_box.find('.grid-item').each(function(i) {
+            if (i >= number) {
+                $(this).remove();
+            }
+        });
+
+        // Set class name for squared box
+        SUPPORTED_GRID_NUMBERS.forEach(function(n) {
+            if (n === number) {
+                squared_box.addClass('-grids-' + n);
+            } else {
+                squared_box.removeClass('-grids-' + n);
+            }
+        });
+
+        // Update size select
+        var size_select = settings_box.find('select[name=size]'),
+            sqrt = Math.sqrt(number),
+            origin_size = sqrt * SPOTIFY_IMAGE_WIDTH;
+        size_select.empty();
+        size_select.append(
+            _createOption(origin_size, 'origin (' + origin_size + 'X' + origin_size + ')')
+        );
+        OUTPUT_SIZES.forEach(function(s) {
+            if (s <= origin_size)
+                size_select.append(_createOption(s, s + 'X' + s));
+        });
+
+        // Update global state
         current_mode = {
             grid_number: number
         };
@@ -48,8 +86,8 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         var drawGrid = function(img, seq) {
-            var x = (seq % 3) * image_width,
-                y = Math.floor((seq / 3)) * image_width;
+            var x = (seq % sqrt) * image_width,
+                y = Math.floor((seq / sqrt)) * image_width;
             ctx.drawImage(img, x, y, image_width, image_width);
         };
 
@@ -61,6 +99,12 @@
     };
 
     var initSquaredBox = function() {
+        // Adjust height on resize
+        $(window).on('resize', function() {
+            adjustSquaredHeight();
+        });
+        $(window).trigger('resize');
+
         // Make sortable
         Sortable.create(squared_box_dom, {
             group: {
@@ -103,6 +147,12 @@
     var settings_box = $('.settings-box');
 
     var initSettingsBox = function() {
+        settings_box.find('select[name=grid_number]').on('change', function() {
+            var grid_number = Number(this.value);
+            console.log('change grid number', grid_number);
+            setGridMode(grid_number);
+        }).trigger('change');  // Manually trigger change to set grid number for the first time
+
         settings_box.find('.download').on('click', function() {
             var images = squared_box.find('.grid-item > img'),
                 // image_width = images[0].width;
@@ -239,9 +289,7 @@
 
 
     exports = {
-        adjustSquaredHeight: adjustSquaredHeight,
         initSquaredBox: initSquaredBox,
-        setGridMode: setGridMode,
         initSettingsBox: initSettingsBox,
         initURLBox: initURLBox,
     };

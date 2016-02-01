@@ -158,7 +158,11 @@
                 // image_width = images[0].width;
                 image_width = SPOTIFY_IMAGE_WIDTH;
             if (!images.length) {
-                alert('Please select at least one image in the grid box');
+                swal({
+                    title: 'Oops',
+                    text: 'Please select at least one image in the grid box',
+                    type: 'error',
+                });
                 return;
             }
 

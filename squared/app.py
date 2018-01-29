@@ -80,11 +80,19 @@ def match_user_and_id(url):
     return rv.groups()
 
 
+def remove_query_string(url):
+    index = url.find('?')
+    if index == -1:
+        return url
+    return url[:index]
+
+
 @app.route('/api/get_spotify_playlist')
 class SpotifyPlaylistHandler(BaseHandler):
     @gen.coroutine
     def post(self):
         playlist_url = self.get_argument('playlist_url')
+        playlist_url = remove_query_string(playlist_url)
         url_args = match_user_and_id(playlist_url)
         if not url_args:
             raise ValueError('Could not match playlist info from given url')
